@@ -1,0 +1,840 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"all_",
+				"all_img_path"
+			],
+			[
+				"model_",
+				"model_fusion"
+			],
+			[
+				"op",
+				"optimizer_fusion"
+			],
+			[
+				"feat",
+				"feat_list_local"
+			],
+			[
+				"feat_list",
+				"feat_list_global"
+			],
+			[
+				"model",
+				"model_fusion"
+			],
+			[
+				"class",
+				"class_names"
+			],
+			[
+				"metr",
+				"metricsPerClass"
+			],
+			[
+				"met",
+				"metricsPerClass"
+			],
+			[
+				"txt",
+				"txt_name"
+			],
+			[
+				"ra",
+				"rapid_blur_augmentation"
+			],
+			[
+				"rapid",
+				"rapid_blur"
+			],
+			[
+				"rapi",
+				"rapid_blur"
+			],
+			[
+				"au",
+				"augment_PIL"
+			],
+			[
+				"result",
+				"results"
+			],
+			[
+				"as",
+				"asarray"
+			],
+			[
+				"all",
+				"all_scores"
+			],
+			[
+				"ea",
+				"each_filename"
+			],
+			[
+				"f",
+				"filenames"
+			],
+			[
+				"tx",
+				"txt_inf"
+			],
+			[
+				"image",
+				"image_paths"
+			],
+			[
+				"i",
+				"image_sequence"
+			],
+			[
+				"ima",
+				"image_tensor"
+			],
+			[
+				"aten",
+				"attention_weight"
+			],
+			[
+				"fina",
+				"final_1"
+			],
+			[
+				"atten",
+				"attention_module"
+			],
+			[
+				"atte",
+				"attention_layer"
+			],
+			[
+				"hidden",
+				"hidden_dim5"
+			],
+			[
+				"hidd",
+				"hidden_dim4"
+			],
+			[
+				"hidde",
+				"hidden_dim"
+			],
+			[
+				"hi",
+				"hidden_dim"
+			],
+			[
+				"folder",
+				"folder_name"
+			],
+			[
+				"seq",
+				"sequence_path"
+			],
+			[
+				"confu",
+				"confusion_matrix"
+			],
+			[
+				"mcc",
+				"mcc_score"
+			],
+			[
+				"res",
+				"resnet18"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
+				"start",
+				"start_i"
+			],
+			[
+				"split",
+				"split_path"
+			],
+			[
+				"split_",
+				"split_number"
+			],
+			[
+				"no",
+				"no_countour"
+			],
+			[
+				"fra",
+				"frame_number"
+			],
+			[
+				"video",
+				"video_name"
+			],
+			[
+				"frame",
+				"Frame_number"
+			],
+			[
+				"datase",
+				"dataset_directory"
+			],
+			[
+				"sin",
+				"single_stream_file"
+			],
+			[
+				"tw",
+				"two_steam_file"
+			],
+			[
+				"twi",
+				"two_stream_yes_no_list"
+			],
+			[
+				"yes",
+				"yes_no"
+			],
+			[
+				"two_st",
+				"two_stream_yes_no_list"
+			],
+			[
+				"single",
+				"single_stream_yes_no_list"
+			],
+			[
+				"two",
+				"two_stream_yes_no_list"
+			],
+			[
+				"Im",
+				"IMAGE_SIZE"
+			],
+			[
+				"y_pred",
+				"y_pred_single_stream"
+			],
+			[
+				"dev",
+				"dev_score"
+			],
+			[
+				"final",
+				"final_df"
+			],
+			[
+				"time",
+				"time_stamp"
+			],
+			[
+				"ti",
+				"time_stamp"
+			],
+			[
+				"mos",
+				"most_responsible_sensor_dict"
+			],
+			[
+				"predictio",
+				"prediction_time"
+			],
+			[
+				"end",
+				"end_time"
+			],
+			[
+				"read",
+				"read_test_data"
+			],
+			[
+				"data",
+				"data_list"
+			],
+			[
+				"img",
+				"img_data"
+			],
+			[
+				"acc",
+				"acc_list"
+			],
+			[
+				"predi",
+				"predicted_labels"
+			],
+			[
+				"cl",
+				"class_labels"
+			],
+			[
+				"pred",
+				"predicted_labels"
+			],
+			[
+				"deviat",
+				"deviation_network"
+			],
+			[
+				"outli",
+				"outlier_indices"
+			],
+			[
+				"out",
+				"outlier_indices"
+			],
+			[
+				"input",
+				"input_shape"
+			],
+			[
+				"reca",
+				"recall_c"
+			],
+			[
+				"batch",
+				"batch_size"
+			],
+			[
+				"att",
+				"attention_flag"
+			],
+			[
+				"attention",
+				"attention_dim"
+			],
+			[
+				"num",
+				"num_classes"
+			],
+			[
+				"csv",
+				"csv_data"
+			],
+			[
+				"cla",
+				"classfier_two_list"
+			],
+			[
+				"vide",
+				"video_cur_dir"
+			],
+			[
+				"test_data",
+				"test_dataloader_2"
+			],
+			[
+				"train",
+				"train_dataloader_2"
+			],
+			[
+				"bat",
+				"batch_size"
+			],
+			[
+				"pre",
+				"predicted_label_index"
+			],
+			[
+				"write",
+				"write_on_video"
+			],
+			[
+				"win",
+				"win_y"
+			],
+			[
+				"wi",
+				"win_start_y"
+			],
+			[
+				"tensor",
+				"tensor_dict"
+			],
+			[
+				"g",
+				"ground_truth_actual"
+			],
+			[
+				"font",
+				"font_for_gt"
+			],
+			[
+				"drea",
+				"dreamed_image"
+			],
+			[
+				"te",
+				"test_file"
+			],
+			[
+				"line",
+				"lines_to_write"
+			],
+			[
+				"attentio",
+				"attention_layer2"
+			],
+			[
+				"text",
+				"text-center"
+			],
+			[
+				"margin-",
+				"margin-bottom\tproperty"
+			],
+			[
+				"base",
+				"BASE_PATH"
+			],
+			[
+				"B",
+				"BASE_PATH"
+			],
+			[
+				"SE",
+				"_SESSION"
+			],
+			[
+				"co",
+				"cover\tbackground-size"
+			],
+			[
+				"_SE",
+				"_SESSION"
+			],
+			[
+				"margin",
+				"margin-bottom\tproperty"
+			],
+			[
+				"info",
+				"info_item"
+			],
+			[
+				"backgrou",
+				"background-size\tproperty"
+			],
+			[
+				"back",
+				"background-size\tproperty"
+			],
+			[
+				"border",
+				"border-radius\tproperty"
+			],
+			[
+				"over",
+				"overflow-y\tproperty"
+			],
+			[
+				"col",
+				"col-md-12"
+			],
+			[
+				"backgr",
+				"background-color\tproperty"
+			],
+			[
+				"form",
+				"form-control"
+			],
+			[
+				"member",
+				"member_id"
+			],
+			[
+				"sele",
+				"selector_value"
+			],
+			[
+				"stat",
+				"status_info"
+			],
+			[
+				"margi",
+				"margin-right\tproperty"
+			],
+			[
+				"title",
+				"titleInput"
+			],
+			[
+				"tit",
+				"titleInput"
+			],
+			[
+				"conten",
+				"contentInput"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"mar",
+				"markedContent"
+			],
+			[
+				"use",
+				"username"
+			],
+			[
+				"get_o",
+				"get_object"
+			],
+			[
+				"usr",
+				"username"
+			],
+			[
+				"get_obj",
+				"get_object_or_404"
+			],
+			[
+				"sale",
+				"sale_price"
+			],
+			[
+				"ratin",
+				"rating_obj"
+			],
+			[
+				"prod",
+				"product"
+			],
+			[
+				"product",
+				"productrating_set"
+			],
+			[
+				"rai",
+				"ratings"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 287.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mar",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"markd",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"markdown",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"",
+				"Convert Case: Lower Case"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 575.0
+	},
+	"console":
+	{
+		"height": 125.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/G/VIP cup journal paper after works/SegCodeNet"
+	],
+	"file_history":
+	[
+		"/G/ChesXpert/PCAM/Chexpert-master/bin/train.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/utils/misc.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/data/dataset.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/bin/train_pcam_ag_fusion.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/backbone/densenet.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/utils.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/classifier.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/utils/heatmaper.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/classifier_agcnn1.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/bin/fusion_branch.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/bin/train_pcam_ag_global.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/classifier_agcnn.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/classifier_agcnn_fusion.py",
+		"/G/Dhaka-ai/train_text/class.json",
+		"/G/ChesXpert/PCAM/Chexpert-master/bin/heatmap.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/data/imgaug.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/backbone/vgg.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/config/example.json",
+		"/G/VIP Cup 2019/Masked Pipe tryouts/mtrain.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/config/example_PCAM.json",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/attention_map.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/model/global_pool.py",
+		"/G/VIP Cup 2019/Masked Pipe tryouts/mdataset.py",
+		"/G/Dhaka-ai/rapid_augmentation/mmdet/datasets/pipelines/formating.py",
+		"/G/Dhaka-ai/rapid_augmentation/mmdet/datasets/pipelines/transforms.py",
+		"/G/Dhaka-ai/for ensemble/visualize_csv.py",
+		"/G/ChesXpert/PCAM/Chexpert-master/data/utils.py",
+		"/G/Dhaka-ai/code_for_seperating_day_night.py",
+		"/G/Dhaka-ai/code_for_submission_creation.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/All Final Scoring Scheme/mean_average_precision-master/calc_map.py",
+		"/G/Dhaka-ai/augmented/augmented txt new/aug_4_2764.txt",
+		"/G/VIP Cup 2020/infer.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/apis/inference.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/detectors/base.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/detectors/single_stage.py",
+		"/G/VIP Cup 2020/Error Analysis/visualize_undetected.py",
+		"/G/VIP Cup 2020/final filter tryout/all fp @ 0.5/visualize.py",
+		"/G/VIP Cup 2020/RAPiD/datasets_ours.py",
+		"/G/DSP Project/my_code_data_extraction.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/All Final Scoring Scheme/mean_average_precision-master/calc_map_stage_2.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/All Final Scoring Scheme/mean_average_precision-master/mean_average_precision/detection_map_.py",
+		"/C/Users/asus/Desktop/gfl_head.py",
+		"/G/VIP Cup 2019/VIP_Cup_BUET_Synapticans/BUETSynapticans_source_code/BUETSynapticans_classification/train.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/Object-Detection-Metrics/samples/sample_2/sample_2.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/mean_average_precision/mean_average_precision/detection_map.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/All Final Scoring Scheme/mean_average_precision-master/mean_average_precision/detection_map.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/dense_heads/gfl_head.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/All Final Scoring Scheme/mean_average_precision-master/calc_map - Copy.py",
+		"/G/Dhaka-ai/traffic-dataset/XML_TXT.py",
+		"/G/VIP Cup 2020/Submission_BUET_Synapticans/Submission_BUET_Synapticans/src/detector/commands.sh",
+		"/G/VIP Cup 2019/VIP_Cup_BUET_Synapticans/VIP_Cup_BUET_Synapticans/BUETSynapticans_source_code/BUETSynapticans_classification/dataset.py",
+		"/G/VIP Cup 2019/Masked Pipe tryouts/modelp.py",
+		"/I/C Drive junks/desktop/GAK/bert.py",
+		"/C/Users/asus/Desktop/bert-base-config.json",
+		"/G/VIP Cup 2020/Submission_BUET_Synapticans/Submission_BUET_Synapticans/src/detector/infer.py",
+		"/G/VIP Cup 2019/testcode.py",
+		"/G/VIP Cup 2020/UniverseNet/tools/train.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/dense_heads/base_dense_head.py",
+		"/G/VIP Cup 2020/UniverseNet/tools/test.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/builder.py",
+		"/G/VIP Cup 2020/UniverseNet/configs/_base_/models/universenet50_gfl.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/core/anchor/anchor_generator.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/extra_augmentation.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/custom.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/necks/sepc.py",
+		"/G/VIP Cup 2020/UniverseNet/tools/slurm_train.sh",
+		"/G/VIP Cup 2020/UniverseNet/tools/benchmark.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/pipelines/formating.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/pipelines/transforms.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/coco.py",
+		"/G/VIP Cup 2020/Evaluation Metrices/mean_average_precision/example.py",
+		"/G/VIP Cup 2020/UniverseNet/configs/_base_/schedules/schedule_2x.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/core/post_processing/bbox_nms.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/dense_heads/anchor_head.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/builder.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/pipelines/instaboost.py",
+		"/G/VIP Cup 2020/UniverseNet/configs/universenet/universenet50_gfl_fp16_4x4_mstrain_480_960_2x_coco.py",
+		"/G/VIP Cup 2020/UniverseNet/configs/_base_/datasets/coco_detection_mstrain_480_960.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/backbones/resnet.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/backbones/res2net.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/core/fp16/decorators.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/ops/dcn/sepc_dconv.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/pipelines/loading.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/datasets/pipelines/compose.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/losses/gfocal_loss.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/models/losses/iou_loss.py",
+		"/G/VIP Cup 2020/UniverseNet/mmdet/core/utils/misc.py",
+		"/C/Users/User/Desktop/Workshop/Lectures/Lecture 6/Code/classifier.py",
+		"/G/VIP Cup 2020/Yet-Another-EfficientDet-Pytorch/efficientnet/model.py",
+		"/G/VIP Cup 2020/RAPiD/api.py",
+		"/G/VIP Cup 2020/RAPiD/models/rapid.py",
+		"/G/VIP Cup 2020/Yet-Another-EfficientDet-Pytorch/train.py",
+		"/G/Alzeimer/3d model/video-classification-3d-cnn-pytorch/model.py",
+		"/G/VIP Cup 2020/RAPiD/train_ours.py",
+		"/G/VIP Cup 2020/RAPiD/train.py",
+		"/G/VIP Cup 2020/annotations/captions_val2017.json",
+		"/G/VIP Cup 2020/annotations/instances_val2017.json",
+		"/G/Susmit Vaiya X-Ray Project/AG-CNN (Udoy bhai provided)/train.py",
+		"/G/VIP Cup 2020/annotations/captions_train2017.json",
+		"/G/VIP Cup 2020/CIoU/data/config.py",
+		"/G/VIP Cup 2020/CIoU/train.py",
+		"/G/Alzeimer/9 feature extractor pipeline/dataset.py",
+		"/G/Susmit Vaiya X-Ray Project/YNet/stage2/main.py",
+		"/G/Susmit Vaiya X-Ray Project/YNet/stage1/main.py",
+		"/G/Susmit Vaiya X-Ray Project/YNet/stage1/Model.py",
+		"/G/VIP Cup 2019/vip paper/vip paper/Activity-Recognition-master/SegCodeNet/model_single_2.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/BUET SYNAPTICANS/devnet_utility.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/devnet_kdd19.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/BUET SYNAPTICANS/main_alzeimer.py",
+		"/G/Alzeimer/model.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/BUET SYNAPTICANS/main.py",
+		"/G/Alzeimer/train.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/utils.py",
+		"/G/Susmit Vaiya X-Ray Project/YNet/stage2/Model.py",
+		"/G/sp cup/before submission/implementation/DevNet-KDD19-code/testing.py",
+		"/G/VIP Cup 2019/vip paper/vip paper/Activity-Recognition-master/Activity-Recognition-master/model_two_stream.py",
+		"/G/VIP Cup 2019/VIP_Cup_BUET_Synapticans/BUETSynapticans_source_code/BUETSynapticans_classification/sampler.py",
+		"/G/VIP Cup 2019/Masked Pipe tryouts/let's make it 6 channel.py",
+		"/G/Alzeimer/resnet.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model9.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model8.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model1.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model_final.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model7.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model6.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model5.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model4.py",
+		"/G/Alzeimer/9 feature extractor pipeline/model3.py"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 127.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": false,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 38.0
+	},
+	"input":
+	{
+		"height": 56.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 136.0
+	},
+	"pinned_build_system": "",
+	"project": "vipcup2019.sublime-project",
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"email",
+				"templates/team/email_instructions.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 320.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
