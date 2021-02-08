@@ -20,8 +20,13 @@ class Encoder(nn.Module):
     def __init__(self, latent_dim):
         super(Encoder, self).__init__()
         resnet = resnext50_32x4d(pretrained=True)
-        self.feature_extractor = nn.Sequential(*list(resnet.children())[:-1])
-        self.final = nn.Sequential(
+        trained_kernel = resnet.conv1.weight
+        new_conv = nn.Conv2d(2, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        with torch.no_grad():
+            new_conv.weight[:,:] = torch.stack([torch.mean(trained_kernel, 1)]*2, dim=1)
+        resnet.conv1 = new_conv
+        self.feature_extractor_z = nn.Sequential(*list(resnet.children())[:-1])
+        self.final_z = nn.Sequential(
             nn.AlphaDropout(0.4),
             nn.Linear(resnet.fc.in_features, latent_dim),
             nn.BatchNorm1d(latent_dim, momentum=0.01)
@@ -31,11 +36,11 @@ class Encoder(nn.Module):
     def forward(self, x):
         
         with torch.no_grad():
-            x = self.feature_extractor_y(x)
+            x = self.feature_extractor_z(x)
         x = x.view(x.size(0), -1)
         
         
-        return self.final_y(x)
+        return self.final_z(x)
 
 
 ##############################
@@ -97,7 +102,7 @@ class ConvLSTM(nn.Module):
         super(ConvLSTM, self).__init__()
         self.encoder = Encoder(latent_dim)
         self.lstm = LSTM(latent_dim, lstm_layers, hidden_dim, bidirectional)
-        self.output_layers_hmdb = nn.Sequential(
+        self.output_layers = nn.Sequential(
             nn.Linear(2* hidden_dim if bidirectional else hidden_dim, hidden_dim),
             nn.BatchNorm1d(hidden_dim, momentum=0.01),
             nn.ReLU(),
@@ -119,4 +124,4 @@ class ConvLSTM(nn.Module):
             x = torch.sum(attention_w.unsqueeze(-1) * x, dim=1)
         else:
             x = x[:, -1]
-        return self.output_layers_hmdb(x)
+        return self.output_layers(x)
