@@ -2,8 +2,8 @@ import torch
 import sys
 import numpy as np
 import itertools
-from model_single_3 import *
-from dataset3 import Dataset
+from model_single_with_attention import *
+from dataset import Dataset
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 import argparse
@@ -145,7 +145,7 @@ def test_model(epoch):
         print("\nCurrent Learning Rate is : " + str(param_group['lr']))
 
     model.train()
-    test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
+    #test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
     print("")
     # Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
     p_score = precision_score(y_true.astype(int), y_pred.astype(int), average='macro')
@@ -158,7 +158,7 @@ def test_model(epoch):
     if ACCURACY < final_acc:
         ACCURACY = final_acc
         os.makedirs("model_checkpoints", exist_ok=True)
-        torch.save(model.state_dict(), f"model_checkpoints/optical_flow_64_{epoch}_best_{round(final_acc,2)}.pth")
+        torch.save(model.state_dict(), f"model_checkpoints/epoch={epoch}_attention_acc={round(final_acc,2)}.pth")
 
 
 
@@ -176,19 +176,19 @@ def test_model(epoch):
                    'Shake', 'Staple', 'Take', 'Typeset', 'Walk', 'Wash', 'Whiteboard', 'Write']
     class_names = np.array(class_names)
     plot_confusion_matrix(y_true.astype(int), y_pred.astype(int), classes=class_names, title=plot_title)
-    os.makedirs("confusion_matrix", exist_ok=True)
-    plt.savefig(f"confusion_matrix/epoch={epoch}_optical_flow_64_acc={round(final_acc,2)}.png")
+
+    plt.savefig(f"epoch={epoch}_attention_acc={round(final_acc,2)}.png")
 
 if __name__ == "__main__":
     torch.manual_seed(0)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_path", type=str, default="data/Optical Flow Frame 64", help="Path to FPVO dataset")
+    parser.add_argument("--dataset_path", type=str, default="data/Masked Video-frames", help="Path to FPVO dataset")
     parser.add_argument("--split_path", type=str, default="data/trainlist", help="Path to train/test split")
     parser.add_argument("--num_epochs", type=int, default=400, help="Number of training epochs")
-    parser.add_argument("--batch_size", type=int, default=256, help="Size of each training batch")
+    parser.add_argument("--batch_size", type=int, default=12, help="Size of each training batch")
     parser.add_argument("--sequence_length", type=int, default=40, help="Number of frames used in each video")
     parser.add_argument("--img_dim", type=int, default=64, help="Height / width dimension")
-    parser.add_argument("--channels", type=int, default=2, help="Number of image channels")
+    parser.add_argument("--channels", type=int, default=3, help="Number of image channels")
     parser.add_argument("--latent_dim", type=int, default=512, help="Dimensionality of the latent representation")
     parser.add_argument("--checkpoint_model", type=str, default="", help="Optional path to checkpoint model")
     opt = parser.parse_args()
@@ -235,7 +235,7 @@ if __name__ == "__main__":
         lstm_layers=1,
         hidden_dim=1024,
         bidirectional=True,
-        attention=False,
+        attention=True,
     )
 
     
@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     # Add weights from checkpoint model if specified
     if opt.checkpoint_model:
-        model.load_state_dict(torch.load(opt.checkpoint_model))
+        model.load_state_dict(torch.load(opt.checkpoint_model),)
 
     optimizer = RAdam(model.parameters(), lr=0.0001, eps=1e-04)
     

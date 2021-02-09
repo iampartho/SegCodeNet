@@ -14,6 +14,7 @@ import torchvision.transforms as transforms
 class Dataset2(Dataset):
     def __init__(self, dataset_path, split_path, input_shape, sequence_length, training):
         self.training = training
+        self.dataset_path = dataset_path
         self.label_index = self._extract_label_mapping(split_path) #creating a dictionary that has action name as the key and action number as value
         self.sequences = self._extract_sequence_paths(dataset_path, split_path, split_number, training) # creating a list of directories where the extracted frames are saved
         self.sequence_length = sequence_length # Defining how many frames should be taken per video for training and testing
@@ -71,7 +72,7 @@ class Dataset2(Dataset):
     def _frame_number(self, image_path):
         """ Extracts frame number from filepath """
         image_path = image_path.replace('\\','/')
-        return int(image_path.split('/')[-1].split('.jpg')[0])
+        return int(image_path.split('/')[-1].split('.jpg')[0].split('frame')[-1])
 
     def _pad_to_length(self, sequence, path):
         """ Pads the video frames to the required sequence length for small videos"""
@@ -84,6 +85,8 @@ class Dataset2(Dataset):
     
     def __getitem__(self, index):
         sequence_path = self.sequences[index % len(self)]
+        if not self.dataset_path in sequence_path:
+            sequence_path = self.dataset_path+sequence_path
         # Sort frame sequence based on frame number 
         image_paths = sorted(glob.glob(sequence_path+'/*.jpg'), key=lambda path: self._frame_number(path))
 

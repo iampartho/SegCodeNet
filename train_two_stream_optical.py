@@ -2,13 +2,15 @@ import torch
 import sys
 import numpy as np
 import itertools
-from model_single_3 import *
-from dataset3 import Dataset
+from model_two_stream_optical import *
+from dataset import Dataset
+from dataset3 import Dataset3
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 import argparse
 import time
 import datetime
+from radam import RAdam
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
@@ -17,12 +19,9 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
 import tqdm
-from radam import RAdam
-
 
 
 ACCURACY = 0
-
 
 # Function to create the confusion Matrix
 def plot_confusion_matrix(y_true, y_pred, classes,
@@ -55,7 +54,7 @@ def plot_confusion_matrix(y_true, y_pred, classes,
 
     print(cm)
 
-    fig, ax = plt.subplots(figsize=(40, 40))
+    fig, ax = plt.subplots(figsize=(20, 20))
     im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
     ax.figure.colorbar(im, ax=ax)
     # We want to show all ticks...
@@ -93,35 +92,42 @@ def test_model(epoch):
     # Preparing the model for evaluation
     model.eval()
     test_metrics = {"loss": [], "acc": []}
-    for batch_i, (X, y) in enumerate(test_dataloader):
-        image_sequences = Variable(X.to(device), requires_grad=False)
-        image_sequences = image_sequences.half()
-        labels = Variable(y, requires_grad=False).to(device)
+    for batch_i, ((X1, y), (X2,y2)) in enumerate(zip(test_dataloader_1, test_dataloader_2)):
+        image_sequences_1 = Variable(X1.to(device), requires_grad=False)
+        image_sequences_2 = Variable(X2.to(device), requires_grad=False)
+
+        image_sequences_1 = image_sequences_1.half()
+        image_sequences_2 = image_sequences_2.half()
+
+        labels = Variable(y.to(device), requires_grad=False).to(device)
+       
+
         y_true = np.append(y_true, labels.cpu().numpy())
+        
+        
         with torch.no_grad():
             # Reset LSTM hidden state
-            model.lstm.reset_hidden_state()
+            model.lstm_c.reset_hidden_state()
 
             
 
             # Get sequence predictions
-            predictions = model(image_sequences)
+            predictions = model(image_sequences_1,image_sequences_2)
 
-            y_pred = np.append(y_pred, np.argmax(predictions.detach().cpu().numpy(), axis=1))
-            
+        y_pred = np.append(y_pred, np.argmax(predictions.detach().cpu().numpy(), axis=1))
         # Compute metrics
         acc = 100 * (np.argmax(predictions.detach().cpu().numpy(), axis=1) == labels.cpu().numpy()).mean()
-        loss = cls_criterion(predictions, labels).item()
-        
+        loss = cls_criterion(predictions, labels)
+ 
         # Keep track of loss and accuracy
-        test_metrics["loss"].append(loss)
+        test_metrics["loss"].append(loss.item())
         test_metrics["acc"].append(acc)
         # Log test performance
         sys.stdout.write(
             "Testing -- [Batch %d/%d] [Loss: %f (%f), Acc: %.2f%% (%.2f%%)]"
             % (
                 batch_i,
-                len(test_dataloader),
+                len(test_dataloader_1),
                 loss,
                 np.mean(test_metrics["loss"]),
                 acc,
@@ -130,9 +136,12 @@ def test_model(epoch):
         )
 
         #deleting variable to free up memory
-        del(X)
+        del(X1)
+        del(X2)
         del(y)
-        del(image_sequences)
+        del(y2)
+        del(image_sequences_1)
+        del(image_sequences_2)
         del(labels)
         del(predictions)
         del(loss)
@@ -140,27 +149,26 @@ def test_model(epoch):
     final_acc=np.mean(test_metrics["acc"])
 
     
-    # Printing the learning rate
+    
+
     for param_group in optimizer.param_groups:
         print("\nCurrent Learning Rate is : " + str(param_group['lr']))
-
     model.train()
-    test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
     print("")
-    # Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
+    test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
+    #Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
     p_score = precision_score(y_true.astype(int), y_pred.astype(int), average='macro')
     r_score = recall_score(y_true.astype(int), y_pred.astype(int), average='macro')
     f_score = f1_score(y_true.astype(int), y_pred.astype(int), average='macro')
+
     
     global ACCURACY
 
     # Save model checkpoint
-    if ACCURACY < final_acc:
-        ACCURACY = final_acc
+    if ACCURACY < f_score*100:
+        ACCURACY = f_score*100
         os.makedirs("model_checkpoints", exist_ok=True)
-        torch.save(model.state_dict(), f"model_checkpoints/optical_flow_64_{epoch}_best_{round(final_acc,2)}.pth")
-
-
+        torch.save(model.state_dict(), f"model_checkpoints/model_two_stream_optical_64_epoch={epoch}acc={round(final_acc, 2)}.pth")
 
     p_score = "Precision Score: " + str(p_score) + "\n\n"
     r_score = "Recall Score: " + str(r_score) + "\n\n"
@@ -176,118 +184,160 @@ def test_model(epoch):
                    'Shake', 'Staple', 'Take', 'Typeset', 'Walk', 'Wash', 'Whiteboard', 'Write']
     class_names = np.array(class_names)
     plot_confusion_matrix(y_true.astype(int), y_pred.astype(int), classes=class_names, title=plot_title)
-    os.makedirs("confusion_matrix", exist_ok=True)
-    plt.savefig(f"confusion_matrix/epoch={epoch}_optical_flow_64_acc={round(final_acc,2)}.png")
+
+    os.makedirs('confusion_matrix', exist_ok=True)
+    plt.savefig(f"confusion_matrix/epoch={epoch}two_stream_optical_64_acc={round(final_acc,2)}.png")
 
 if __name__ == "__main__":
-    torch.manual_seed(0)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_path", type=str, default="data/Optical Flow Frame 64", help="Path to FPVO dataset")
+    parser.add_argument("--dataset_path", type=str, default="data/Video-frames", help="Path to FPVO dataset")
     parser.add_argument("--split_path", type=str, default="data/trainlist", help="Path to train/test split")
-    parser.add_argument("--num_epochs", type=int, default=400, help="Number of training epochs")
-    parser.add_argument("--batch_size", type=int, default=256, help="Size of each training batch")
+    parser.add_argument("--num_epochs", type=int, default=100, help="Number of training epochs")
+    parser.add_argument("--batch_size", type=int, default=8, help="Size of each training batch")
     parser.add_argument("--sequence_length", type=int, default=40, help="Number of frames used in each video")
-    parser.add_argument("--img_dim", type=int, default=64, help="Height / width dimension")
-    parser.add_argument("--channels", type=int, default=2, help="Number of image channels")
+    parser.add_argument("--img_dim_1", type=int, default=64, help="Height / width dimension")
+    parser.add_argument("--img_dim_2", type=int, default=64, help="Height / width dimension")
+    parser.add_argument("--channels", type=int, default=3, help="Number of image channels")
     parser.add_argument("--latent_dim", type=int, default=512, help="Dimensionality of the latent representation")
     parser.add_argument("--checkpoint_model", type=str, default="", help="Optional path to checkpoint model")
+    parser.add_argument(
+        "--checkpoint_interval", type=int, default=1, help="Interval between saving model checkpoints"
+    )
     opt = parser.parse_args()
     print(opt)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    image_shape = (opt.channels, opt.img_dim, opt.img_dim)
+    image_shape_1 = (opt.channels, opt.img_dim_1, opt.img_dim_1)
+
+    image_shape_2 = (opt.channels, opt.img_dim_2, opt.img_dim_2)
 
 
 
     # Define training set
-    train_dataset = Dataset(
-        dataset_path=opt.dataset_path,
+    train_dataset_1 = Dataset(
+        dataset_path='data/Video-frames',
         split_path=opt.split_path,
-        input_shape=image_shape,
+        input_shape=image_shape_1,
+        sequence_length=opt.sequence_length,
+        training=True
+    )
+
+    train_dataloader_1 = DataLoader(train_dataset_1, batch_size=opt.batch_size, shuffle=False, num_workers=4)
+
+    train_dataset_2 = Dataset2(
+        dataset_path='data/Optical Flow Frame 64',
+        split_path=opt.split_path,
+        input_shape=image_shape_2,
         sequence_length=opt.sequence_length,
         training=True,
     )
 
-    train_dataloader = DataLoader(train_dataset, batch_size=opt.batch_size, shuffle=True, num_workers=2)
+    train_dataloader_2 = DataLoader(train_dataset_2, batch_size=opt.batch_size, shuffle=False, num_workers=4)
+
+
 
     
 
     # Define test set
-    test_dataset = Dataset(
-        dataset_path=opt.dataset_path,
+    test_dataset_1 = Dataset(
+        dataset_path='data/Video-frames',
         split_path=opt.split_path,
-        input_shape=image_shape,
+        input_shape=image_shape_1,
         sequence_length=opt.sequence_length,
         training=False,
     )
-    test_dataloader = DataLoader(test_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=2)
+    test_dataloader_1 = DataLoader(test_dataset_1,batch_size=opt.batch_size, shuffle=False, num_workers=4)
+
+    test_dataset_2 = Dataset2(
+        dataset_path='data/Optical Flow Frame 64',
+        split_path=opt.split_path,
+        input_shape=image_shape_2,
+        sequence_length=opt.sequence_length,
+        training=False,
+    )
+    test_dataloader_2 = DataLoader(test_dataset_2,batch_size=opt.batch_size, shuffle=False, num_workers=4)
 
     
 
     # Classification criterion
     cls_criterion = nn.CrossEntropyLoss().to(device)
-
+    
+    
     # Define network
     model = ConvLSTM(
-        num_classes=train_dataset.num_classes,
+        num_classes=18,
         latent_dim=opt.latent_dim,
         lstm_layers=1,
-        hidden_dim=1024,
+        hidden_dim=2048,
         bidirectional=True,
-        attention=False,
+        attention=True,
+        sequence_length=opt.sequence_length
     )
 
-    
+
 
     model = model.to(device)
 
-    # convert to half precision 
+    # convert to half precision
     model.half()  
     for layer in model.modules():
         if isinstance(layer, nn.BatchNorm2d):
             layer.float()
 
+    ###########################################################
     # Add weights from checkpoint model if specified
-    if opt.checkpoint_model:
-        model.load_state_dict(torch.load(opt.checkpoint_model))
+    # if opt.checkpoint_model:
+    #     model.load_state_dict(torch.load(opt.checkpoint_model))
+
+
+    # Add Weights From the two single training models specified (Raw and Mask)
+    path1 = 'model_checkpoints/two_stream_model_image_size_64/ConvLSTM3_178_3_channel_only_image_size_64_acc_58.68_f1_52.6(full_data).pth'
+    path2 = 'model_checkpoints/two_stream_model_image_size_64/ConvLSTM3_84for_mask_IM_64_best_63.15(full_data).pth'
+
+    
+    model.load_state_dict(torch.load(path1), strict=False)
+
+
+    model.load_state_dict(torch.load(path2), strict=False)
+
+    #################################################
 
     optimizer = RAdam(model.parameters(), lr=0.0001, eps=1e-04)
-    
 
 
-    
     #Stating the epoch
     for epoch in range(opt.num_epochs):
-        #epoch+=104
         epoch_metrics = {"loss": [], "acc": []}
         prev_time = time.time()
         print(f"--- Epoch {epoch}---")
-        for batch_i, (X, y) in enumerate(train_dataloader):
-            if X.size(0) == 1:
+        for batch_i, ((X1, y), (X2,y2)) in enumerate(zip(train_dataloader_1, train_dataloader_2)):
+            if X1.size(0) == 1:
                 continue
+            image_sequences_1 = Variable(X1.to(device), requires_grad=True)
+            image_sequences_2 = Variable(X2.to(device), requires_grad=True)
 
-
-            image_sequences = Variable(X.to(device), requires_grad=True)
+            
             labels = Variable(y.to(device), requires_grad=False)
+            
 
-            image_sequences = image_sequences.half()
+            image_sequences_1 = image_sequences_1.half()
+            image_sequences_2 = image_sequences_2.half()
 
             optimizer.zero_grad()
 
             # Reset LSTM hidden state
-            model.lstm.reset_hidden_state()
+            model.lstm_c.reset_hidden_state()
 
             
             # Get sequence predictions
-            predictions = model(image_sequences)
+            predictions = model(image_sequences_1,image_sequences_2)
 
 
             
             # Compute metrics
             loss = cls_criterion(predictions, labels)
             acc = 100 * (np.argmax(predictions.detach().cpu().numpy(), axis=1) == labels.cpu().numpy()).mean()
-
             
 
             loss.backward()
@@ -298,8 +348,8 @@ if __name__ == "__main__":
             epoch_metrics["acc"].append(acc)
 
             # Determine approximate time left
-            batches_done = epoch * len(train_dataloader) + batch_i
-            batches_left = opt.num_epochs * len(train_dataloader) - batches_done
+            batches_done = epoch * len(train_dataloader_1) + batch_i
+            batches_left = opt.num_epochs * len(train_dataloader_1) - batches_done
             time_left = datetime.timedelta(seconds=batches_left * (time.time() - prev_time))
             prev_time = time.time()
 
@@ -310,7 +360,7 @@ if __name__ == "__main__":
                     epoch,
                     opt.num_epochs,
                     batch_i,
-                    len(train_dataloader),
+                    len(train_dataloader_1),
                     loss.item(),
                     np.mean(epoch_metrics["loss"]),
                     acc,
@@ -318,11 +368,13 @@ if __name__ == "__main__":
                     time_left,
                 )
             )
-
-            #deleting variables to clear up the memory
-            del(X)
+            #deleting variable to free up memory
+            del(X1)
             del(y)
-            del(image_sequences)
+            del(X2)
+            del(y2)
+            del(image_sequences_1)
+            del(image_sequences_2)
             del(labels)
             del(predictions)
             del(loss)
@@ -334,5 +386,7 @@ if __name__ == "__main__":
 
         # Evaluate the model on the test set
         test_model(epoch)
-            
+
+
+        
 
