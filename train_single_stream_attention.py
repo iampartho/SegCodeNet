@@ -147,37 +147,31 @@ def test_model(epoch):
     model.train()
     #test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
     print("")
-    # Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
+    #test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
+    #Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
     p_score = precision_score(y_true.astype(int), y_pred.astype(int), average='macro')
     r_score = recall_score(y_true.astype(int), y_pred.astype(int), average='macro')
     f_score = f1_score(y_true.astype(int), y_pred.astype(int), average='macro')
-    
-    global ACCURACY
-
-    # Save model checkpoint
-    if ACCURACY < final_acc:
-        ACCURACY = final_acc
-        os.makedirs("model_checkpoints", exist_ok=True)
-        torch.save(model.state_dict(), f"model_checkpoints/epoch={epoch}_attention_acc={round(final_acc,2)}.pth")
-
-
 
     p_score = "Precision Score: " + str(p_score) + "\n\n"
     r_score = "Recall Score: " + str(r_score) + "\n\n"
     f_score = "F Score: " + str(f_score) + "\n\n"
 
-    plot_title = p_score + r_score + f_score + "Confusion matrix, Without Normalization\n"
-
-    print(y_true.astype(int))
-    print(y_pred.astype(int))
+    plot_title = p_score + r_score + f_score
 
     
-    class_names = ['Chat', 'Clean', 'Drink', 'Dryer', 'Machine', 'Microwave', 'Mobile', 'Paper', 'Print', 'Read',
-                   'Shake', 'Staple', 'Take', 'Typeset', 'Walk', 'Wash', 'Whiteboard', 'Write']
-    class_names = np.array(class_names)
-    plot_confusion_matrix(y_true.astype(int), y_pred.astype(int), classes=class_names, title=plot_title)
+    global ACCURACY
 
-    plt.savefig(f"epoch={epoch}_attention_acc={round(final_acc,2)}.png")
+    # Save model checkpoint
+    if ACCURACY < final_acc*100:
+        ACCURACY = final_acc*100
+        os.makedirs("/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints", exist_ok=True)
+        torch.save(model.state_dict(), f"/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/best_frame_attention.pth")
+        with open('/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/log_frame_attention.txt', 'w') as f:
+                print(f"\nepoch={epoch}_with_acc={final_acc}\n{plot_title}", file=f)
+
+    
+
 
 if __name__ == "__main__":
     torch.manual_seed(0)
