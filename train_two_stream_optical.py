@@ -124,7 +124,7 @@ def test_model(epoch):
         test_metrics["acc"].append(acc)
         # Log test performance
         sys.stdout.write(
-            "Testing -- [Batch %d/%d] [Loss: %f (%f), Acc: %.2f%% (%.2f%%)]"
+            "\rTesting -- [Batch %d/%d] [Loss: %f (%f), Acc: %.2f%% (%.2f%%)]"
             % (
                 batch_i,
                 len(test_dataloader_1),
@@ -171,8 +171,8 @@ def test_model(epoch):
     global ACCURACY
 
     # Save model checkpoint
-    if ACCURACY < f_score*100:
-        ACCURACY = f_score*100
+    if ACCURACY < final_acc*100:
+        ACCURACY = final_acc*100
         os.makedirs("/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints", exist_ok=True)
         torch.save(model.state_dict(), f"/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/best.pth")
         with open('/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/log.txt', 'w') as f:
