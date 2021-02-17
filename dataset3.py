@@ -11,12 +11,12 @@ import torchvision.transforms as transforms
 
 
 
-class Dataset2(Dataset):
+class Dataset3(Dataset):
     def __init__(self, dataset_path, split_path, input_shape, sequence_length, training):
         self.training = training
         self.dataset_path = dataset_path
         self.label_index = self._extract_label_mapping(split_path) #creating a dictionary that has action name as the key and action number as value
-        self.sequences = self._extract_sequence_paths(dataset_path, split_path, split_number, training) # creating a list of directories where the extracted frames are saved
+        self.sequences = self._extract_sequence_paths(dataset_path, split_path, training) # creating a list of directories where the extracted frames are saved
         self.sequence_length = sequence_length # Defining how many frames should be taken per video for training and testing
         self.label_names = sorted(list(set([self._activity_from_path(seq_path) for seq_path in self.sequences]))) #Getting the label names or name of the class
         self.num_classes = len(self.label_names) # Getting the number of class

@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import itertools
 from model_single_3 import *
-from dataset3 import Dataset
+from dataset3 import Dataset3
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
 import argparse
@@ -145,7 +145,7 @@ def test_model(epoch):
         print("\nCurrent Learning Rate is : " + str(param_group['lr']))
 
     model.train()
-    test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
+    #test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
     print("")
     # Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
     p_score = precision_score(y_true.astype(int), y_pred.astype(int), average='macro')

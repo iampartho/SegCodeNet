@@ -3,7 +3,7 @@ import torch.nn.functional as F
 import torch
 import numpy as np
 from torch.autograd import Variable
-from wide_resnet101 import resnext50_32x4d
+from torchvision.models import resnext50_32x4d
 
 import torch.utils.model_zoo as model_zoo
 import os
@@ -93,13 +93,13 @@ class Encoder(nn.Module):
     
 
 
-        attention_w_x = self.attention_x(x)
-        attention_w_y = self.attention_y(y)
+        # attention_w_x = self.attention_x(x)
+        # attention_w_y = self.attention_y(y)
 
 
 
-        x = torch.mul(x, attention_w_x)
-        y = torch.mul(y, attention_w_y)
+        # x = torch.mul(x, attention_w_x)
+        # y = torch.mul(y, attention_w_y)
 
         
 

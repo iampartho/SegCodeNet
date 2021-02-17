@@ -155,11 +155,17 @@ def test_model(epoch):
         print("\nCurrent Learning Rate is : " + str(param_group['lr']))
     model.train()
     print("")
-    test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
+    #test_loss.append(str(np.mean(test_metrics["loss"]))+ ',')
     #Getting the P, R and F score for evaluation and plotting the confusion matrix and saving that matrix
     p_score = precision_score(y_true.astype(int), y_pred.astype(int), average='macro')
     r_score = recall_score(y_true.astype(int), y_pred.astype(int), average='macro')
     f_score = f1_score(y_true.astype(int), y_pred.astype(int), average='macro')
+
+    p_score = "Precision Score: " + str(p_score) + "\n\n"
+    r_score = "Recall Score: " + str(r_score) + "\n\n"
+    f_score = "F Score: " + str(f_score) + "\n\n"
+
+    plot_title = p_score + r_score + f_score
 
     
     global ACCURACY
@@ -167,30 +173,29 @@ def test_model(epoch):
     # Save model checkpoint
     if ACCURACY < f_score*100:
         ACCURACY = f_score*100
-        os.makedirs("model_checkpoints", exist_ok=True)
-        torch.save(model.state_dict(), f"model_checkpoints/model_two_stream_optical_64_epoch={epoch}acc={round(final_acc, 2)}.pth")
-
-    p_score = "Precision Score: " + str(p_score) + "\n\n"
-    r_score = "Recall Score: " + str(r_score) + "\n\n"
-    f_score = "F Score: " + str(f_score) + "\n\n"
-
-    plot_title = p_score + r_score + f_score + "Confusion matrix, Without Normalization\n"
-
-    print(y_true.astype(int))
-    print(y_pred.astype(int))
+        os.makedirs("/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints", exist_ok=True)
+        torch.save(model.state_dict(), f"/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/best.pth")
+        with open('/content/drive/MyDrive/VIP cup Journal Paper Work/model_checkpoints/log.txt', 'w') as f:
+                print(f"\nepoch={epoch}_with_acc={final_acc}\n{plot_title}", file=f)
 
     
-    class_names = ['Chat', 'Clean', 'Drink', 'Dryer', 'Machine', 'Microwave', 'Mobile', 'Paper', 'Print', 'Read',
-                   'Shake', 'Staple', 'Take', 'Typeset', 'Walk', 'Wash', 'Whiteboard', 'Write']
-    class_names = np.array(class_names)
-    plot_confusion_matrix(y_true.astype(int), y_pred.astype(int), classes=class_names, title=plot_title)
 
-    os.makedirs('confusion_matrix', exist_ok=True)
-    plt.savefig(f"confusion_matrix/epoch={epoch}two_stream_optical_64_acc={round(final_acc,2)}.png")
+
+    # print(y_true.astype(int))
+    # print(y_pred.astype(int))
+
+    
+    # class_names = ['Chat', 'Clean', 'Drink', 'Dryer', 'Machine', 'Microwave', 'Mobile', 'Paper', 'Print', 'Read',
+    #                'Shake', 'Staple', 'Take', 'Typeset', 'Walk', 'Wash', 'Whiteboard', 'Write']
+    # class_names = np.array(class_names)
+    # plot_confusion_matrix(y_true.astype(int), y_pred.astype(int), classes=class_names, title=plot_title)
+
+    # os.makedirs('confusion_matrix', exist_ok=True)
+    # plt.savefig(f"confusion_matrix/epoch={epoch}two_stream_optical_64_acc={round(final_acc,2)}.png")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_path", type=str, default="data/Video-frames", help="Path to FPVO dataset")
+    parser.add_argument("--dataset_path", type=str, default="data/Videos-frames", help="Path to FPVO dataset")
     parser.add_argument("--split_path", type=str, default="data/trainlist", help="Path to train/test split")
     parser.add_argument("--num_epochs", type=int, default=100, help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=8, help="Size of each training batch")
@@ -216,7 +221,7 @@ if __name__ == "__main__":
 
     # Define training set
     train_dataset_1 = Dataset(
-        dataset_path='data/Video-frames',
+        dataset_path='data/Videos-frames',
         split_path=opt.split_path,
         input_shape=image_shape_1,
         sequence_length=opt.sequence_length,
@@ -225,7 +230,7 @@ if __name__ == "__main__":
 
     train_dataloader_1 = DataLoader(train_dataset_1, batch_size=opt.batch_size, shuffle=False, num_workers=4)
 
-    train_dataset_2 = Dataset2(
+    train_dataset_2 = Dataset3(
         dataset_path='data/Optical Flow Frame 64',
         split_path=opt.split_path,
         input_shape=image_shape_2,
@@ -241,7 +246,7 @@ if __name__ == "__main__":
 
     # Define test set
     test_dataset_1 = Dataset(
-        dataset_path='data/Video-frames',
+        dataset_path='data/Videos-frames',
         split_path=opt.split_path,
         input_shape=image_shape_1,
         sequence_length=opt.sequence_length,
@@ -249,7 +254,7 @@ if __name__ == "__main__":
     )
     test_dataloader_1 = DataLoader(test_dataset_1,batch_size=opt.batch_size, shuffle=False, num_workers=4)
 
-    test_dataset_2 = Dataset2(
+    test_dataset_2 = Dataset3(
         dataset_path='data/Optical Flow Frame 64',
         split_path=opt.split_path,
         input_shape=image_shape_2,
@@ -292,8 +297,8 @@ if __name__ == "__main__":
 
 
     # Add Weights From the two single training models specified (Raw and Mask)
-    path1 = 'model_checkpoints/two_stream_model_image_size_64/ConvLSTM3_178_3_channel_only_image_size_64_acc_58.68_f1_52.6(full_data).pth'
-    path2 = 'model_checkpoints/two_stream_model_image_size_64/ConvLSTM3_84for_mask_IM_64_best_63.15(full_data).pth'
+    path1 = '/content/rgb_weight.pth'
+    path2 = '/content/optical_weight.pth'
 
     
     model.load_state_dict(torch.load(path1), strict=False)
