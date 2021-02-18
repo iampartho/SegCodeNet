@@ -118,7 +118,7 @@ def test_model(epoch):
         test_metrics["acc"].append(acc)
         # Log test performance
         sys.stdout.write(
-            "Testing -- [Batch %d/%d] [Loss: %f (%f), Acc: %.2f%% (%.2f%%)]"
+            "\rTesting -- [Batch %d/%d] [Loss: %f (%f), Acc: %.2f%% (%.2f%%)]"
             % (
                 batch_i,
                 len(test_dataloader),
@@ -176,7 +176,7 @@ def test_model(epoch):
 if __name__ == "__main__":
     torch.manual_seed(0)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset_path", type=str, default="data/Masked Video-frames", help="Path to FPVO dataset")
+    parser.add_argument("--dataset_path", type=str, default="data/Videos-frames", help="Path to FPVO dataset")
     parser.add_argument("--split_path", type=str, default="data/trainlist", help="Path to train/test split")
     parser.add_argument("--num_epochs", type=int, default=400, help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=12, help="Size of each training batch")
@@ -225,11 +225,11 @@ if __name__ == "__main__":
     # Define network
     model = ConvLSTM(
         num_classes=train_dataset.num_classes,
-        latent_dim=opt.latent_dim,
+        latent_dim=2048,
         lstm_layers=1,
         hidden_dim=1024,
         bidirectional=True,
-        attention=True,
+        attention=False,
     )
 
     

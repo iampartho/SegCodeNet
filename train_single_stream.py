@@ -217,7 +217,6 @@ if __name__ == "__main__":
     test_dataset = Dataset(
         dataset_path=opt.dataset_path,
         split_path=opt.split_path,
-        split_number=opt.split_number,
         input_shape=image_shape,
         sequence_length=opt.sequence_length,
         training=False,

@@ -32,6 +32,8 @@ class Encoder(nn.Module):
         
         #with torch.no_grad():
         x = self.feature_extractor(x)
+
+        
         x = x.view(x.size(0), -1)
         
         
@@ -114,7 +116,7 @@ class ConvLSTM(nn.Module):
     ):
         super(ConvLSTM, self).__init__()
         self.encoder = Encoder(latent_dim)
-        self.attention_model = SAModule(3)
+        self.attention_model = SAModule(latent_dim)
         self.lstm = LSTM(latent_dim, lstm_layers, hidden_dim, bidirectional)
         self.output_layers = nn.Sequential(
             nn.Linear(2* hidden_dim if bidirectional else hidden_dim, hidden_dim),
@@ -130,14 +132,18 @@ class ConvLSTM(nn.Module):
         batch_size,seq_length, c, h, w = x.shape
         x = x.view(batch_size * seq_length, c, h, w)
         x = self.encoder(x)
-        x = x.view(batch_size, seq_length, -1)
-        x = self.lstm(x)
-       
+        x = x.view(batch_size, seq_length, -1, 1, 1)
         if self.attention:
             for i in range(seq_length):
-                x[:,i,:] = self.attention_model(x[:,i,:])
+                x[:,i,:,:,:] = self.attention_model(x[:,i,:,:,:])
+        
+        x = x.view(batch_size, seq_length, -1)
+        
+        x = self.lstm(x)
+       
+        
             #attention_w = F.sigmoid(self.attention_layer(x).squeeze(-1))
             #x = torch.sum(attention_w.unsqueeze(-1) * x, dim=1)
-        else:
-            x = x[:, -1]
+        #else:
+        x = x[:, -1]
         return self.output_layers(x)
