@@ -201,7 +201,7 @@ if __name__ == "__main__":
 
 
     # Define training set
-    train_dataset = Dataset(
+    train_dataset = Dataset3(
         dataset_path=opt.dataset_path,
         split_path=opt.split_path,
         input_shape=image_shape,
@@ -214,7 +214,7 @@ if __name__ == "__main__":
     
 
     # Define test set
-    test_dataset = Dataset(
+    test_dataset = Dataset3(
         dataset_path=opt.dataset_path,
         split_path=opt.split_path,
         input_shape=image_shape,

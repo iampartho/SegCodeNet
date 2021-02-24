@@ -178,8 +178,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset_path", type=str, default="data/Videos-frames", help="Path to FPVO dataset")
     parser.add_argument("--split_path", type=str, default="data/trainlist", help="Path to train/test split")
-    parser.add_argument("--num_epochs", type=int, default=400, help="Number of training epochs")
-    parser.add_argument("--batch_size", type=int, default=12, help="Size of each training batch")
+    parser.add_argument("--num_epochs", type=int, default=100, help="Number of training epochs")
+    parser.add_argument("--batch_size", type=int, default=64, help="Size of each training batch")
     parser.add_argument("--sequence_length", type=int, default=40, help="Number of frames used in each video")
     parser.add_argument("--img_dim", type=int, default=64, help="Height / width dimension")
     parser.add_argument("--channels", type=int, default=3, help="Number of image channels")
@@ -229,7 +229,7 @@ if __name__ == "__main__":
         lstm_layers=1,
         hidden_dim=1024,
         bidirectional=True,
-        attention=False,
+        attention=True,
     )
 
     

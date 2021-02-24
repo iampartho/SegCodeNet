@@ -576,7 +576,7 @@
 			"file": "model_single_with_attention.py",
 			"settings":
 			{
-				"buffer_size": 4700,
+				"buffer_size": 4715,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -999,15 +999,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4700,
+						"buffer_size": 4715,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4700,
-								4700
+								0,
+								0
 							]
 						],
 						"settings":

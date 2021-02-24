@@ -20,7 +20,7 @@ class Encoder(nn.Module):
     def __init__(self, latent_dim):
         super(Encoder, self).__init__()
         resnet = resnext50_32x4d(pretrained=True)
-        self.feature_extractor = nn.Sequential(*list(resnet.children())[:-1])
+        self.feature_extractor_y = nn.Sequential(*list(resnet.children())[:-1])
         # self.final = nn.Sequential(
         #     nn.AlphaDropout(0.4),
         #     nn.Linear(resnet.fc.in_features, latent_dim),
@@ -31,7 +31,7 @@ class Encoder(nn.Module):
     def forward(self, x):
         
         #with torch.no_grad():
-        x = self.feature_extractor(x)
+        x = self.feature_extractor_y(x)
 
         
         #x = x.view(x.size(0), -1)
@@ -116,7 +116,7 @@ class ConvLSTM(nn.Module):
     ):
         super(ConvLSTM, self).__init__()
         self.encoder = Encoder(latent_dim)
-        self.attention_model = SAModule(latent_dim)
+        self.attention_model_y = SAModule(latent_dim)
         self.lstm = LSTM(latent_dim, lstm_layers, hidden_dim, bidirectional)
         self.output_layers = nn.Sequential(
             nn.Linear(2* hidden_dim if bidirectional else hidden_dim, hidden_dim),
@@ -135,7 +135,7 @@ class ConvLSTM(nn.Module):
         x = x.view(batch_size, seq_length, -1, 1, 1)
         if self.attention:
             for i in range(seq_length):
-                x[:,i,:,:,:] = self.attention_model(x[:,i,:,:,:])
+                x[:,i,:,:,:] = self.attention_model_y(x[:,i,:,:,:])
         
         x = x.view(batch_size, seq_length, -1)
         
