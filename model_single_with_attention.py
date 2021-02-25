@@ -21,11 +21,11 @@ class Encoder(nn.Module):
         super(Encoder, self).__init__()
         resnet = resnext50_32x4d(pretrained=True)
         self.feature_extractor = nn.Sequential(*list(resnet.children())[:-1])
-        # self.final = nn.Sequential(
-        #     nn.AlphaDropout(0.4),
-        #     nn.Linear(resnet.fc.in_features, latent_dim),
-        #     nn.BatchNorm1d(latent_dim, momentum=0.01)
-        # )
+        self.final = nn.Sequential(
+            nn.AlphaDropout(0.4),
+            nn.Linear(resnet.fc.in_features, latent_dim),
+            nn.BatchNorm1d(latent_dim, momentum=0.01)
+        )
     
 
     def forward(self, x):
@@ -34,10 +34,10 @@ class Encoder(nn.Module):
         x = self.feature_extractor(x)
 
         
-        #x = x.view(x.size(0), -1)
+        x = x.view(x.size(0), -1)
         
         
-        return x
+        return self.final(x)
 
 
 ##############################
